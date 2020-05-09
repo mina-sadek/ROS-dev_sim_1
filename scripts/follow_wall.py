@@ -10,7 +10,7 @@ from std_srvs.srv import *
 
 import math
 
-active_ = False
+active_ = True #False
 pub_ = None
 regions_ = {
         'right': 0,
@@ -36,6 +36,7 @@ def wall_follower_switch(req):
 
 def clbk_laser(msg):
     global regions_
+    #print(msg)
     regions_ = {
         'right':  min(min(msg.ranges[0:143]), 10),
         'fright': min(min(msg.ranges[144:287]), 10),
@@ -43,6 +44,7 @@ def clbk_laser(msg):
         'fleft':  min(min(msg.ranges[432:575]), 10),
         'left':   min(min(msg.ranges[576:719]), 10),
     }
+    #print(regions_)
     
     take_action()
 
@@ -61,7 +63,7 @@ def take_action():
     
     state_description = ''
     
-    d = 1.5
+    d = 0.5 #1.5
     
     if regions['front'] > d and regions['fleft'] > d and regions['fright'] > d:
         state_description = 'case 1 - nothing'
@@ -114,9 +116,9 @@ def main():
     
     rospy.init_node('reading_laser')
     
-    pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    pub_ = rospy.Publisher('/diffBot/cmd_vel', Twist, queue_size=1)
     
-    sub = rospy.Subscriber('/diff_bot/laser/scan', LaserScan, clbk_laser)
+    sub = rospy.Subscriber('/diffBot/laser/scan', LaserScan, clbk_laser)
     
     srv = rospy.Service('wall_follower_switch', SetBool, wall_follower_switch)
     

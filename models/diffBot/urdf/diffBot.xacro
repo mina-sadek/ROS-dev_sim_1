@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 
-<robot name="diff_bot" xmlns:xacro="https://www.ros.org/wiki/xacro" >
+<robot name="diffBot" xmlns:xacro="https://www.ros.org/wiki/xacro" >
     
-  <xacro:include filename="$(find diffBot_000)/models/diff_bot/urdf/materials.xacro" />
+  <xacro:include filename="$(find diffBot_000)/models/diffBot/urdf/materials.xacro" />
   
-  <xacro:include filename="$(find diffBot_000)/models/diff_bot/urdf/diff_bot.gazebo" />
+  <xacro:include filename="$(find diffBot_000)/models/diffBot/urdf/diffBot.gazebo" />
 
-  <xacro:include filename="$(find diffBot_000)/models/diff_bot/urdf/macro.xacro" />
+  <xacro:include filename="$(find diffBot_000)/models/diffBot/urdf/macro.xacro" />
 
 <!--
   <gazebo reference="link_chassis">

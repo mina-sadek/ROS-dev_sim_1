@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 # import ros stuff
+import sys
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Point
@@ -21,7 +22,7 @@ desired_position_.y = -3
 desired_position_.z = 0
 # parameters
 yaw_precision_ = math.pi / 90 # +/- 2 degree allowed
-dist_precision_ = 0.3
+dist_precision_ = 0.1 #0.3
 
 # publishers
 pub = None
@@ -72,7 +73,7 @@ def go_straight_ahead(des_pos):
     
     if err_pos > dist_precision_:
         twist_msg = Twist()
-        twist_msg.linear.x = 0.6
+        twist_msg.linear.x = 0.3 #0.6
         pub.publish(twist_msg)
     else:
         print 'Position error: [%s]' % err_pos
@@ -89,14 +90,25 @@ def done():
     twist_msg.angular.z = 0
     pub.publish(twist_msg)
 
+def gotopoint(x, y):
+    print("Moving to position (" + str(x) + "," + str(y) + ").")
+    desired_position_.x = x
+    desired_position_.y = y
+    desired_position_.z = 0
+
 def main():
     global pub
+
+    if len(sys.argv) < 3:
+        print("usage: gotopoint.py x_value y_value")
+    else:
+        gotopoint(float(sys.argv[1]), float(sys.argv[2]))
     
     rospy.init_node('go_to_point')
     
-    pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    pub = rospy.Publisher('/diffBot/cmd_vel', Twist, queue_size=1)
     
-    sub_odom = rospy.Subscriber('/odom', Odometry, clbk_odom)
+    sub_odom = rospy.Subscriber('/diffBot/odom', Odometry, clbk_odom)
     
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():

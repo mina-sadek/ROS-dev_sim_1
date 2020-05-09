@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="diff_bot" xmlns:xacro="https://www.ros.org/wiki/xacro" >
+<robot name="diffBot" xmlns:xacro="https://www.ros.org/wiki/xacro" >
   <xacro:property name="M_PI" value="3.1415926535897931"/>
   <gazebo reference="link_chassis">
     <material>Gazebo/Orange</material>
@@ -22,9 +22,11 @@
       <wheelDiameter>0.2</wheelDiameter>
       <torque>0.1</torque>
       <commandTopic>/diffBot/cmd_vel</commandTopic>
-      <odometryTopic>/doffBot/odom</odometryTopic>
+      <odometryTopic>/diffBot/odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>link_chassis</robotBaseFrame>
+      <publishWheelTF>true</publishWheelTF>
+      <publishWheelJointState>true</publishWheelJointState>
     </plugin>
   </gazebo>
 
@@ -67,7 +69,7 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/diff_bot/laser/scan</topicName>
+        <topicName>/diffBot/laser/scan</topicName>
         <frameName>sensor_laser</frameName>
       </plugin>
     </sensor>

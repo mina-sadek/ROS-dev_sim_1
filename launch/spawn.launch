@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find diffBot_000)/models/diffBot/urdf/diffBot.xacro'" />
- 
-    <arg name="x" default="0"/>
-    <arg name="y" default="0"/>
-    <arg name="z" default="0.5"/>
- 
-    <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-          args="-urdf -param robot_description -model diffBot -x $(arg x) -y $(arg y) -z $(arg z)" />
- 
+    <arg name="robot_name" default="diffBot"/>
+    <arg name="x" default="0.1"/>
+    <arg name="y" default="0.1"/>
+    <arg name="z" default="0.1"/>
+    <arg name="namespace_arg" default=""/>
+
+    <!--  ******************** Robot Model ********************  -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find diffBot_000)/models/diffBot/urdf/diffBot.xacro'" />
+
+    <node name="spawn_$(arg robot_name)" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf
+                -param robot_description
+                -model $(arg robot_name)
+                -x $(arg x) -y $(arg y) -z $(arg z)"
+          respawn="false" output="screen">
+    </node>
 </launch>

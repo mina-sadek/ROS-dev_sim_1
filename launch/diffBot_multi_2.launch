@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>  
+
+  <!-- Robot Parameters -->
+<!--
+  <param name="robot_description" command="$(find xacro)/xacro '$(find diffBot_000)/models/diffBot/urdf/diffBot.xacro'" />
+-->
+
   <arg name="x" default="0.1"/>
   <arg name="y" default="0.1"/>
   <arg name="z" default="0"/>
@@ -10,7 +16,8 @@
   <arg name="x2" default="0.1"/>
   <arg name="y2" default="1.1"/>
   <arg name="z2" default="0"/>
-  <arg name="robot_name" default="diffBot"/>
+  <arg name="robot_name_1" default="diffBot1"/>
+  <arg name="robot_name_2" default="diffBot2"/>
   <!-- ================ -->
 
   <!-- World Parameters -->
@@ -22,17 +29,16 @@
   <!--  Include launch.xml if needed -->
 
   <!-- BEGIN ROBOT 1-->
-  <group ns="$(arg robot_name)">
+  <group ns="$(arg robot_name_1)">
     <include file="$(find diffBot_000)/launch/spawn.launch" >
       <arg name="x" value="$(arg x1)" />
       <arg name="y" value="$(arg y1)" />
       <arg name="z" value="$(arg z1)" />
-      <arg name="robot_name"  value="$(arg robot_name)" />
-      <arg name="namespace_arg"  value="$(arg robot_name)" />
+      <arg name="robot_name"  value="$(arg robot_name_1)" />
+      <arg name="namespace_arg"  value="$(arg robot_name_1)" />
     </include>
   </group>
   <!-- BEGIN ROBOT 2-->
-  <!--
   <group ns="$(arg robot_name_2)">
     <include file="$(find diffBot_000)/launch/spawn.launch" >
       <arg name="x" value="$(arg x2)" />
@@ -42,6 +48,23 @@
       <arg name="namespace_arg"  value="$(arg robot_name_2)" />
     </include>
   </group>
+
+<!--
+  <group ns="diffBot2">
+    <param name="tf_prefix" value="robot2_tf" />
+    <include file="$(find diffBot_000)/launch/spawn.launch" >
+      <arg name="x" value="-1" />
+      <arg name="y" value="1" />
+      <arg name="z" value="0" />
+      <arg name="robot_name"  value="diffBot2" />
+    </include>
+  </group>
+-->
+
+  <!-- Spawn The Robot -->
+  <!--
+  <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+    args="-urdf -param robot_description -model diffBot -x $(arg x) -y $(arg y) -z $(arg z)" launch-prefix="bash -c 'sleep 5.0; $0 $@' " />
   -->
   <!-- ================ -->
 
